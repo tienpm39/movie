@@ -67,80 +67,83 @@ export default function Home({ navigation }) {
 
     return (
         <SafeAreaView style={styles.container}>
-            <ScrollView
-                refreshControl={
-                    <RefreshControl
-                        color="#FFF"
-                        tintColor="orange"
-                        refreshing={refreshing}
-                        onRefresh={onRefresh}
-                    />
-                }
-            >
-                <View>
-                    <Text style={styles.heading}>What's Popular</Text>
-                </View>
-                <View >
-                    {isLoading ? <ActivityIndicator /> : (
+            {isOffline ?
+                <NoInternetModal
+                    show={isOffline}
+                    onRetry={onRefresh}
+                    isRetrying={isLoading}
+                /> : (
 
-                        <FlatList
-                            contentContainerStyle={{ paddingLeft: 5, paddingRight: 20 }}
-                            horizontal={true}
-                            showsHorizontalScrollIndicator={false}
-                            data={data.results}
-                            keyExtractor={({ id }) => id}
-                            renderItem={({ item, index }) => (
-                                <Card
-                                    style={[styles.movieItem, { marginLeft: 15 }]}
-                                    onPress={() => navigation.navigate('Detail', {
-                                        id: item.id,
-                                        title: item.title,
-                                    })}
-                                    image={{ uri: 'https://image.tmdb.org/t/p/original/' + item.poster_path }}
-                                >
-                                    <Text style={styles.movieName}>{item.title}</Text>
-                                    <Text style={styles.subName}>{item.release_date}</Text>
-                                </Card>
-                            )}
-                        />
-                    )}
-                </View>
-                <View>
-                    <Text style={styles.heading}>Trending Today</Text>
-                </View>
-                <View >
-                    {isLoading ?
-                        <View style={styles.loading}>
-                            <ActivityIndicator size='large' />
-                        </View> : (
-                            <FlatList
-                                contentContainerStyle={{ paddingLeft: 5, paddingRight: 20 }}
-                                horizontal={true}
-                                showsHorizontalScrollIndicator={false}
-                                data={trending.results}
-                                keyExtractor={({ id }) => id}
-                                renderItem={({ item, index }) => (
-                                    <Card
-                                        style={[styles.movieItem, { marginLeft: 15 }]}
-                                        onPress={() => navigation.navigate('Detail', {
-                                            id: item.id,
-                                            title: item.title,
-                                        })}
-                                        image={{ uri: 'https://image.tmdb.org/t/p/original/' + item.poster_path }}
-                                    >
-                                        <Text style={styles.movieName}>{item.title}</Text>
-                                        <Text style={styles.subName}>{item.release_date}</Text>
-                                    </Card>
-                                )}
+                    <ScrollView
+                        refreshControl={
+                            <RefreshControl
+                                color="#FFF"
+                                tintColor="orange"
+                                refreshing={refreshing}
+                                onRefresh={onRefresh}
                             />
-                        )}
-                </View>
-            </ScrollView>
-            <NoInternetModal
-                show={isOffline}
-                onRetry={onRefresh}
-                isRetrying={isLoading}
-            />
+                        }
+                    >
+                        <View>
+                            <Text style={styles.heading}>What's Popular</Text>
+                        </View>
+                        <View >
+                            {isLoading ? <ActivityIndicator /> : (
+
+                                <FlatList
+                                    contentContainerStyle={{ paddingLeft: 5, paddingRight: 20 }}
+                                    horizontal={true}
+                                    showsHorizontalScrollIndicator={false}
+                                    data={data.results}
+                                    keyExtractor={({ id }) => id}
+                                    renderItem={({ item, index }) => (
+                                        <Card
+                                            style={[styles.movieItem, { marginLeft: 15 }]}
+                                            onPress={() => navigation.navigate('Detail', {
+                                                id: item.id,
+                                                title: item.title,
+                                            })}
+                                            image={{ uri: 'https://image.tmdb.org/t/p/original/' + item.poster_path }}
+                                        >
+                                            <Text style={styles.movieName}>{item.title}</Text>
+                                            <Text style={styles.subName}>{item.release_date}</Text>
+                                        </Card>
+                                    )}
+                                />
+                            )}
+                        </View>
+                        <View>
+                            <Text style={styles.heading}>Trending Today</Text>
+                        </View>
+                        <View >
+                            {isLoading ?
+                                <View style={styles.loading}>
+                                    <ActivityIndicator size='large' />
+                                </View> : (
+                                    <FlatList
+                                        contentContainerStyle={{ paddingLeft: 5, paddingRight: 20 }}
+                                        horizontal={true}
+                                        showsHorizontalScrollIndicator={false}
+                                        data={trending.results}
+                                        keyExtractor={({ id }) => id}
+                                        renderItem={({ item, index }) => (
+                                            <Card
+                                                style={[styles.movieItem, { marginLeft: 15 }]}
+                                                onPress={() => navigation.navigate('Detail', {
+                                                    id: item.id,
+                                                    title: item.title,
+                                                })}
+                                                image={{ uri: 'https://image.tmdb.org/t/p/original/' + item.poster_path }}
+                                            >
+                                                <Text style={styles.movieName}>{item.title}</Text>
+                                                <Text style={styles.subName}>{item.release_date}</Text>
+                                            </Card>
+                                        )}
+                                    />
+                                )}
+                        </View>
+                    </ScrollView>
+                )}
         </SafeAreaView>
     );
 }
