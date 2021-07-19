@@ -30,4 +30,7 @@ For starting development server run below command at the root directory
 npx react-native start
 
 or with Yarn to run metro and build app to the emulator.
+
+```
 yarn android || yarn ios
+```
